@@ -6,19 +6,22 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
 public class Product implements Serializable{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String category;
+//    private String models;
+    private String modelName;
+    private String modelSize;
     private double price;
+    private String modelFirm;
 
     public Long getId() {
         return id;
@@ -27,21 +30,21 @@ public class Product implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public String getTitle() {
-        return title;
+
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 
-    public String getCategory() {
-        return category;
+    public String getModelSize() {
+        return modelSize;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setModelSize(String modelSize) {
+        this.modelSize = modelSize;
     }
 
     public double getPrice() {
@@ -52,8 +55,22 @@ public class Product implements Serializable{
         this.price = price;
     }
 
+    public String getModelFirm() {
+        return modelFirm;
+    }
+
+    public void setModelFirm(String modelFirm) {
+        this.modelFirm = modelFirm;
+    }
+
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", title=" + title + ", category=" + category + ", price=" + price + '}';
+        return "Модель: " + "id=" + id 
+//                + ", models=" + models 
+                + ", modelName=" + modelName 
+                + ", modelSize=" + modelSize 
+                + ", price=" + price 
+                + ", modelFirm=" + modelFirm;
     }
+    
 }

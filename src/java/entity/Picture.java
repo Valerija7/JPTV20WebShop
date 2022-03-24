@@ -14,7 +14,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author jvm
+ * @author pupil
  */
 @Entity
 public class Picture implements Serializable {

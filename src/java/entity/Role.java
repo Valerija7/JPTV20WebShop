@@ -15,7 +15,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Lenovo
+ * @author pupil
  */
 @Entity
 public class Role implements Serializable {
