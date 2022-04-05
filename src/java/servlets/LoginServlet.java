@@ -1,9 +1,9 @@
 package servlets;
 
-import entity.Role;
 import entity.User;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,26 +28,23 @@ import tools.PasswordProtected;
 public class LoginServlet extends HttpServlet {
     @EJB UserFacade userFacade;
     
-    
     @Override
     public void init() throws ServletException {
         super.init(); //To change body of generated methods, choose Tools | Templates.
-        if(userFacade.count()>1) return;    
+        if(userFacade.count() > 0) return;   
         User user = new User();
         user.setFirstName("Valerija");
         user.setLastName("Glimakova");
-        user.setPhone("56955098");
-        user.setMoney(235);
+        user.setPhone("53334005");
+        user.setMoney(500);
         user.setLogin("admin");
-        PasswordProtected passwordProtected1 = new PasswordProtected();
-        String salt1 = passwordProtected1.getSalt();
-        user.setSalt(salt1);
-        String adminPassword = passwordProtected1.getProtectedPassword("12345", salt1);
+        PasswordProtected passwordProtected = new PasswordProtected();
+        String salt = passwordProtected.getSalt();
+        user.setSalt(salt);
+        String adminPassword = passwordProtected.getProtectedPassword("12345", salt);
         user.setPassword(adminPassword);
-        Role role = new Role();
-        role.setRoleName("ADMINISTRATOR");
+        user.setRole("ADMINISTRATOR");
         userFacade.create(user);
-        
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,8 +58,8 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         request.setCharacterEncoding("UTF-8");
-         String path = request.getServletPath();
+        request.setCharacterEncoding("UTF-8");
+        String path = request.getServletPath();
         switch (path) {
             case "/showIndex":
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
@@ -70,8 +67,8 @@ public class LoginServlet extends HttpServlet {
             case "/index":
                 String login = request.getParameter("login");
                 String password = request.getParameter("password");
-                //Authentification
                 User authUser = userFacade.findByLogin(login);
+                //Authentification
                 if(authUser == null){
                     request.setAttribute("info", "Неверный логин или пароль");
                     request.getRequestDispatcher("/showIndex").forward(request, response);
@@ -86,6 +83,7 @@ public class LoginServlet extends HttpServlet {
                     request.getRequestDispatcher("/showIndex").forward(request, response);
                     break;
                 }
+
                 HttpSession session = request.getSession(true);
                 session.setAttribute("authUser", authUser);
                 request.setAttribute("info", "Приветствуем вас , "+authUser.getFirstName());
@@ -137,9 +135,18 @@ public class LoginServlet extends HttpServlet {
                     request.setAttribute("phone", phone);
                     request.setAttribute("money", money);
                     request.setAttribute("login", login);
-                    request.setAttribute("info", "Не все поля заполнены");
+                    request.setAttribute("info", "Одно или несколько полей не заполнены!");
                     request.getRequestDispatcher("/showSignUp").forward(request, response);
                     break;
+                }
+                List<User> usersList = userFacade.findAll();
+                for(User user : usersList) {
+                    System.out.println(user.getLogin());
+                    if(user.getLogin().equals(login)) {
+                        request.setAttribute("info", "Не удалось создать аккаунт!");
+                        request.getRequestDispatcher("/showSignUp").forward(request, response);
+                        break;
+                    }
                 }
                 User newUser = new User();
                 newUser.setFirstName(firstName);
@@ -152,6 +159,7 @@ public class LoginServlet extends HttpServlet {
                 newUser.setSalt(salt);
                 password1 = passwordProtected.getProtectedPassword(password1, salt);
                 newUser.setPassword(password1);
+                newUser.setRole("BUYER");
                 userFacade.create(newUser);
                 request.setAttribute("info", "Приветсвуем вас, "+newUser.getFirstName()+"! Авторизуйтесь");
                 request.getRequestDispatcher("/showIndex").forward(request, response);

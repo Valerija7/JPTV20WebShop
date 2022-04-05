@@ -1,35 +1,78 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
+/**
+ *
+ * @author lo
+ */
 @Entity
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String login;
-    private String password;
     private String firstName;
     private String lastName;
-    private double money;
     private String phone;
+    private double money;
+    private String login;
+    private String password;
     private String salt;
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Product> listProducts;
+    private String role;
+
+    public User() {
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", money=" + money + ", login=" + login + ", password=" + password + ", salt=" + salt + ", role=" + role + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        hash = 71 * hash + Objects.hashCode(this.phone);
+        hash = 71 * hash + Objects.hashCode(this.login);
+        hash = 71 * hash + Objects.hashCode(this.password);
+        hash = 71 * hash + Objects.hashCode(this.salt);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.phone, other.phone)) {
+            return false;
+        }
+        if (!Objects.equals(this.login, other.login)) {
+            return false;
+        }
+        if (!Objects.equals(this.salt, other.salt)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -39,28 +82,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firtName) {
-        this.firstName = firtName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -79,6 +106,22 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getSalt() {
         return salt;
     }
@@ -87,14 +130,6 @@ public class User implements Serializable {
         this.salt = salt;
     }
 
-    public List<Product> getListProducts() {
-        return listProducts;
-    }
-
-    public void setListProducts(List<Product> listProducts) {
-        this.listProducts = listProducts;
-    }
-    
     public double getMoney() {
         return money;
     }
@@ -102,64 +137,12 @@ public class User implements Serializable {
     public void setMoney(double money) {
         this.money = money;
     }
-    
-    
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        hash = 71 * hash + Objects.hashCode(this.login);
-        hash = 71 * hash + Objects.hashCode(this.password);
-        hash = 71 * hash + Objects.hashCode(this.firstName);
-        hash = 71 * hash + Objects.hashCode(this.lastName);
-        hash = 71 * hash + Objects.hashCode(this.phone);
-        hash = 71 * hash + Objects.hashCode(this.salt);
-        hash = 71 * hash + Objects.hashCode(this.listProducts);
-        return hash;
+
+    public String getRole() {
+        return role;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User other = (User) obj;
-        if (!Objects.equals(this.login, other.login)) {
-            return false;
-        }
-        if (!Objects.equals(this.password, other.password)) {
-            return false;
-        }
-        if (!Objects.equals(this.firstName, other.firstName)) {
-            return false;
-        }
-        if (!Objects.equals(this.lastName, other.lastName)) {
-            return false;
-        }
-        if (!Objects.equals(this.phone, other.phone)) {
-            return false;
-        }
-        if (!Objects.equals(this.salt, other.salt)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.listProducts, other.listProducts)) {
-            return false;
-        }
-        return true;
+    public void setRole(String role) {
+        this.role = role;
     }
-
-   
-    
-
 }
-
-    

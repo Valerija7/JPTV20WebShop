@@ -30,7 +30,7 @@ public class History implements Serializable{
     @OneToOne(cascade = CascadeType.DETACH)
     private User user;
     @OneToOne(cascade = CascadeType.DETACH)
-    private Product product;
+    private Model model;
     @Temporal(TemporalType.TIMESTAMP)
     private Date buy;
     private double gain;
@@ -51,12 +51,12 @@ public class History implements Serializable{
         this.user = user;
     }
 
-    public Product getProduct() {
-        return product;
+    public Model getProduct() {
+        return model;
     }
 
-    public void setModel(Product model) {
-        this.product = product;
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     public Date getBuy() {
@@ -77,7 +77,7 @@ public class History implements Serializable{
     
     @Override
     public String toString() {
-        return "History{" + "id=" + id + ", user=" + user + ", product=" + product + ", buy=" + buy + ", gain=" + gain +'}';
+        return "History{" + "id=" + id + ", user=" + user + ",model=" + model + ", buy=" + buy + ", gain=" + gain +'}';
     }
 
     @Override
@@ -85,7 +85,7 @@ public class History implements Serializable{
         int hash = 7;
         hash = 83 * hash + Objects.hashCode(this.id);
         hash = 83 * hash + Objects.hashCode(this.user);
-        hash = 83 * hash + Objects.hashCode(this.product);
+        hash = 83 * hash + Objects.hashCode(this.model);
         hash = 83 * hash + Objects.hashCode(this.buy);
         hash = 83 * hash + (int) (Double.doubleToLongBits(this.gain) ^ (Double.doubleToLongBits(this.gain) >>> 32));
         return hash;
@@ -112,7 +112,7 @@ public class History implements Serializable{
         if (!Objects.equals(this.user, other.user)) {
             return false;
         }
-        if (!Objects.equals(this.product, other.product)) {
+        if (!Objects.equals(this.model, other.model)) {
             return false;
         }
         if (!Objects.equals(this.buy, other.buy)) {

@@ -1,5 +1,6 @@
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <div class="w-100 d-flex justify-content-center">
     <form action="addModel" method="POST" >
         <div class="card border-0 mb-3" style="width: 30em;">
