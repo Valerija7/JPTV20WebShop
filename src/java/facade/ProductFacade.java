@@ -5,19 +5,15 @@
  */
 package facade;
 
-import entity.Model;
+import entity.Product;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * @author pupil
- */
 @Stateless
-public class ModelFacade extends AbstractFacade<Model> {
+public class ProductFacade extends AbstractFacade<Product> {
 
-    @PersistenceContext(unitName = "JPTV20WebShoeShopPU")
+    @PersistenceContext(unitName = "JPTV20_webBootsShopPU")
     private EntityManager em;
 
     @Override
@@ -25,7 +21,8 @@ public class ModelFacade extends AbstractFacade<Model> {
         return em;
     }
 
-    public ModelFacade() {
-        super(Model.class);
+    public ProductFacade() {
+        super(Product.class);
     }
+
 }

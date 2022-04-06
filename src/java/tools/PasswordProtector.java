@@ -19,7 +19,7 @@ import javax.crypto.spec.PBEKeySpec;
  *
  * @author pupli
  */
-public class PasswordProtected {
+public class PasswordProtector {
     public String getProtectedPassword(String password, String salt){
         KeySpec spec = new PBEKeySpec(password.toCharArray(),salt.getBytes(),65536,128);
         try {
@@ -27,9 +27,9 @@ public class PasswordProtected {
             byte[] hash = factory.generateSecret(spec).getEncoded();
             return new BigInteger(hash).toString(16);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(PasswordProtected.class.getName()).log(Level.SEVERE, "Не найден алгоритм", ex);
+            Logger.getLogger(PasswordProtector.class.getName()).log(Level.SEVERE, "Не найден алгоритм", ex);
         } catch (InvalidKeySpecException ex) {
-            Logger.getLogger(PasswordProtected.class.getName()).log(Level.SEVERE, "Неправильный spec", ex);
+            Logger.getLogger(PasswordProtector.class.getName()).log(Level.SEVERE, "Неправильный spec", ex);
         }
         return null;
     }

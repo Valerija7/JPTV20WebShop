@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entity;
 
 import java.io.Serializable;
@@ -23,26 +13,45 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-public class History implements Serializable{
+public class History implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(cascade = CascadeType.DETACH)
-    private User user;
-    @OneToOne(cascade = CascadeType.DETACH)
-    private Model model;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date buy;
-    private double gain;
+    private Date purchaseDate;
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private Product product;
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private User user;
+
+    public History() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long Id) {
-        this.id = Id;
+    public void setId(Long id) {
+        this.id = id;
     }
-    
+
+    public Date getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public User getUser() {
         return user;
     }
@@ -51,43 +60,18 @@ public class History implements Serializable{
         this.user = user;
     }
 
-    public Model getProduct() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-
-    public Date getBuy() {
-        return buy;
-    }
-
-    public void setBuy(Date buy) {
-        this.buy = buy;
-    }
-
-    public double getGain() {
-        return gain;
-    }
-
-    public void setGain(double gain) {
-        this.gain = gain;
-    }
-    
     @Override
     public String toString() {
-        return "History{" + "id=" + id + ", user=" + user + ",model=" + model + ", buy=" + buy + ", gain=" + gain +'}';
+        return "History{" + "id=" + id + ", purchaseDate=" + purchaseDate + ", product=" + product + ", user=" + user + '}';
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.id);
-        hash = 83 * hash + Objects.hashCode(this.user);
-        hash = 83 * hash + Objects.hashCode(this.model);
-        hash = 83 * hash + Objects.hashCode(this.buy);
-        hash = 83 * hash + (int) (Double.doubleToLongBits(this.gain) ^ (Double.doubleToLongBits(this.gain) >>> 32));
+        hash = 29 * hash + Objects.hashCode(this.id);
+        hash = 29 * hash + Objects.hashCode(this.purchaseDate);
+        hash = 29 * hash + Objects.hashCode(this.product);
+        hash = 29 * hash + Objects.hashCode(this.user);
         return hash;
     }
 
@@ -103,22 +87,21 @@ public class History implements Serializable{
             return false;
         }
         final History other = (History) obj;
-        if (Double.doubleToLongBits(this.gain) != Double.doubleToLongBits(other.gain)) {
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
+        if (!Objects.equals(this.purchaseDate, other.purchaseDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.product, other.product)) {
             return false;
         }
         if (!Objects.equals(this.user, other.user)) {
             return false;
         }
-        if (!Objects.equals(this.model, other.model)) {
-            return false;
-        }
-        if (!Objects.equals(this.buy, other.buy)) {
-            return false;
-        }
         return true;
     }
+    
+    
 
 }

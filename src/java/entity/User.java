@@ -1,11 +1,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,6 +28,8 @@ public class User implements Serializable {
     private String password;
     private String salt;
     private String role;
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<Product> listProducts;
 
     public User() {
     }
@@ -144,5 +149,13 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Product> getListProducts() {
+        return listProducts;
+    }
+
+    public void setListProducts(List<Product> listProducts) {
+        this.listProducts = listProducts;
     }
 }
